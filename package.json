@@ -1,0 +1,31 @@
+{
+  "name": "imma-portfolio-fullstack",
+  "version": "1.0.0",
+  "description": "Full-stack portfolio website with Node.js backend and static frontend",
+  "main": "backend/server.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd igbanna && npx http-server -p 3000",
+    "build": "echo 'Build completed - ready for Vercel deployment'",
+    "start": "node backend/server.js",
+    "vercel-deploy": "vercel --prod",
+    "deploy": "powershell -ExecutionPolicy Bypass -File deploy.ps1"
+  },
+  "keywords": ["portfolio", "fullstack", "vercel", "nodejs"],
+  "author": "Immanuel Igbana",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "nodemailer": "^6.9.1"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "nodemon": "^2.0.20"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Immanuel Igbana · Product Designer</title>
+    <!-- Premium Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: #0a0a0f;
+            color: #e4e6ef;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Minimal scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #13131a; }
+        ::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 4px; }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.9;
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* After Effects Style Scroll Progress */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .scroll-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #6366f1, #a78bfa, #6366f1);
+            background-size: 200% auto;
+            animation: gradientShift 3s ease infinite;
+            width: 0%;
+            transition: width 0.1s ease-out;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.75rem 6%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #ffffff;
+            z-index: 101;
+        }
+
+        .logo span {
+            color: #6366f1;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #a1a1aa;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+            text-transform: lowercase;
+            letter-spacing: -0.01em;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #e4e6ef;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #6366f1;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+            z-index: 101;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #e4e6ef;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        /* Section layout */
+        section {
+            padding: 6rem 6%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero {
+            min-height: 90vh;
+        }
+
+        .eyebrow {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: #6366f1;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(3.5rem, 8vw, 5.5rem);
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            color: #ffffff;
+            max-width: 900px;
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            color: #6366f1;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #a1a1aa;
+            max-width: 600px;
+            margin-top: 1.5rem;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .btn-group {
+            margin-top: 2.5rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.85rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        .btn-primary {
+            background: #6366f1;
+            color: #ffffff;
+            border: 1px solid #6366f1;
+        }
+
+        .btn-primary:hover {
+            background: #4f52e0;
+            border-color: #4f52e0;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #e4e6ef;
+            border: 1px solid #27272a;
+        }
+
+        .btn-secondary:hover {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.05);
+            transform: translateY(-2px);
+        }
+
+        /* Section headers */
+        .section-header {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            color: #71717a;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        /* Work grid - enterprise style */
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: rgba(20, 20, 28, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid #27272a;
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #6366f1, #a78bfa);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover {
+            background: rgba(30, 30, 40, 0.7);
+            border-color: #3f3f46;
+            transform: translateY(-8px);
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-icon {
+            font-size: 2rem;
+            color: #6366f1;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+        }
+
+        .project-card p {
+            color: #a1a1aa;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6366f1;
+            font-weight: 600;
+        }
+
+        .project-link {
+            color: #71717a;
+            transition: color 0.2s ease;
+        }
+
+        .project-card:hover .project-link {
+            color: #6366f1;
+        }
+
+        /* Expertise Cards Grid */
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .expertise-card {
+            background: rgba(20, 20, 28, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid #27272a;
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .expertise-card:hover {
+            border-color: #3f3f46;
+            background: rgba(30, 30, 40, 0.7);
+            transform: translateY(-4px);
+        }
+
+        .expertise-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: #6366f1;
+            font-size: 1.5rem;
+        }
+
+        .expertise-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #ffffff;
+        }
+
+        .expertise-card p {
+            color: #a1a1aa;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            color: #a78bfa;
+            font-weight: 500;
+        }
+
+        /* About section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+        }
+
+        .about-text p {
+            color: #a1a1aa;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-highlight {
+            border-left: 2px solid #6366f1;
+            padding-left: 1.5rem;
+            color: #e4e6ef;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin: 2rem 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: left;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #71717a;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Counter Animation */
+        .stat-number.counter {
+            color: #c084fc;
+            position: relative;
+            overflow: hidden;
+            text-shadow: 0 0 10px rgba(192, 132, 252, 0.3);
+            transition: text-shadow 0.3s ease;
+        }
+        .stat-number.counter.animated {
+            text-shadow: 0 0 20px rgba(192, 132, 252, 0.6), 0 0 40px rgba(192, 132, 252, 0.3);
+        }
+        .stat-number.counter::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(192, 132, 252, 0.3), transparent);
+            transform: translateX(-100%);
+            animation: shimmerCounter 2s ease-in-out infinite;
+        }
+        @keyframes shimmerCounter {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Contact Cards Grid */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .contact-card {
+            background: rgba(20, 20, 28, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid #27272a;
+            border-radius: 16px;
+            padding: 2rem;
+            text-decoration: none;
+            color: #e4e6ef;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #6366f1, #a78bfa);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .contact-card:hover {
+            border-color: #3f3f46;
+            background: rgba(30, 30, 40, 0.7);
+            transform: translateY(-4px);
+        }
+
+        .contact-card:hover::before {
+            opacity: 1;
+        }
+
+        .contact-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: #6366f1;
+            font-size: 1.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover .contact-icon {
+            background: rgba(99, 102, 241, 0.2);
+            transform: scale(1.05);
+        }
+
+        .contact-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+        }
+
+        .contact-value {
+            color: #a1a1aa;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            word-break: break-all;
+        }
+
+        .contact-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6366f1;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: gap 0.3s ease;
+        }
+
+        .contact-card:hover .contact-action {
+            gap: 0.75rem;
+        }
+
+        /* Additional sections for fullness */
+        .process-section {
+            margin-top: 4rem;
+        }
+
+        .testimonial-card {
+            background: rgba(20, 20, 28, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid #27272a;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .testimonial-text {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #e4e6ef;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #6366f1, #a78bfa);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .author-info h4 {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .author-info p {
+            color: #71717a;
+            font-size: 0.85rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 6%;
+            border-top: 1px solid #1f1f28;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #71717a;
+            font-size: 0.85rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-links a {
+            color: #71717a;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-links a:hover {
+            color: #6366f1;
+        }
+
+        /* After Effects Style Scroll Animations */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(60px) scale(0.9) rotateX(10deg);
+            filter: blur(10px);
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .fade-up.appear {
+            opacity: 1;
+            transform: translateY(0) scale(1) rotateX(0deg);
+            filter: blur(0px);
+        }
+
+        /* Advanced easing keyframes */
+        @keyframes aeFadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(60px) scale(0.9) rotateX(10deg);
+                filter: blur(10px);
+            }
+            50% {
+                opacity: 0.7;
+                transform: translateY(20px) scale(0.95) rotateX(5deg);
+                filter: blur(5px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotateX(0deg);
+                filter: blur(0px);
+            }
+        }
+
+        @keyframes aeSlideInLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-100px) skewX(-10deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) skewX(0deg);
+            }
+        }
+
+        @keyframes aeSlideInRight {
+            0% {
+                opacity: 0;
+                transform: translateX(100px) skewX(10deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) skewX(0deg);
+            }
+        }
+
+        @keyframes aeScaleIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) rotate(180deg);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1) rotate(90deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        @keyframes aeBounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) translateY(100px);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05) translateY(-10px);
+            }
+            70% {
+                transform: scale(0.9) translateY(5px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* Apply different animations to different elements */
+        .hero h1.fade-up.appear {
+            animation: aeSlideInLeft 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        .hero p.fade-up.appear {
+            animation: aeSlideInRight 1.2s cubic-bezier(0.23, 1, 0.32, 1) 0.2s forwards;
+        }
+
+        .btn-group.fade-up.appear {
+            animation: aeBounceIn 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.4s forwards;
+        }
+
+        .section-title.fade-up.appear {
+            animation: aeScaleIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        /* Scroll section effects */
+        .scroll-section {
+            transition: transform 0.1s ease-out, filter 0.1s ease-out;
+            will-change: transform, filter;
+        }
+
+        .parallax-element {
+            will-change: transform;
+            transition: transform 0.1s ease-out;
+        }
+
+        .stagger-card {
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            will-change: transform;
+        }
+
+        .ae-transform {
+            transition: transform 0.3s ease-out;
+            will-change: transform;
+        }
+
+        /* Enhanced 3D hover effects */
+        .project-card:hover {
+            transform: translateY(-12px) rotateX(-5deg) rotateY(5deg) scale(1.02);
+            box-shadow:
+                0 25px 50px rgba(0,0,0,0.3),
+                0 40px 80px rgba(124, 77, 255, 0.2),
+                0 60px 120px rgba(124, 77, 255, 0.1);
+        }
+
+        .skill-badge:hover {
+            transform: translateY(-8px) rotateX(5deg) rotateY(5deg) scale(1.05);
+        }
+
+        .contact-card:hover {
+            transform: translateY(-10px) rotateX(-5deg) rotateY(-5deg) scale(1.02);
+        }
+
+        /* Scroll velocity blur effect */
+        body {
+            transition: filter 0.1s ease-out;
+        }
+
+        /* Cinematic depth of field effect */
+        .depth-blur {
+            filter: blur(2px);
+            transition: filter 0.3s ease-out;
+        }
+
+        .depth-blur.in-focus {
+            filter: blur(0px);
+        }
+
+        /* Advanced hover states with magnetic effect */
+        .magnetic-hover {
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+        }
+
+        .magnetic-hover:hover {
+            transform: scale(1.05) translateZ(20px);
+        }
+
+        /* Particle effect for background */
+        .particle-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(192, 132, 252, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: particleFloat 20s linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1.25rem 5%;
+                position: relative;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100vh;
+                background: rgba(10, 10, 15, 0.95);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+                transition: left 0.3s ease;
+                z-index: 99;
+                padding: 2rem;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links a {
+                font-size: 1.2rem;
+                padding: 1rem;
+                width: 200px;
+                text-align: center;
+                border-radius: 8px;
+                transition: all 0.3s ease;
+            }
+
+            .nav-links a:hover {
+                background: rgba(99, 102, 241, 0.1);
+                color: #ffffff;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            section {
+                padding: 4rem 5%;
+            }
+
+            .expertise-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Counter animation mobile optimization */
+            .stat-number {
+                font-size: 2.5rem;
+            }
+
+            /* After Effects mobile optimizations */
+            .ae-transform {
+                transition: none; /* Disable 3D transforms on mobile for performance */
+            }
+
+            .parallax-element {
+                transform: none !important; /* Disable parallax on mobile */
+            }
+
+            .scroll-section {
+                transform: none !important;
+                filter: none !important;
+            }
+
+            /* Hide particle background on mobile for performance */
+            .particle-bg {
+                display: none;
+            }
+        }
+
+        /* Loading animation */
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero h1 em {
+            background: linear-gradient(90deg, #6366f1, #a78bfa, #6366f1);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientShift 4s ease infinite;
+        }
+    </style>
+</head>
+<body>
+
+<div id="canvas-container"></div>
+
+<!-- Particle Background for Cinematic Effect -->
+<div class="particle-bg" id="particle-bg">
+    <div class="particle" style="left: 10%; animation-delay: 0s; width: 4px; height: 4px;"></div>
+    <div class="particle" style="left: 20%; animation-delay: 2s; width: 6px; height: 6px;"></div>
+    <div class="particle" style="left: 30%; animation-delay: 4s; width: 3px; height: 3px;"></div>
+    <div class="particle" style="left: 40%; animation-delay: 6s; width: 5px; height: 5px;"></div>
+    <div class="particle" style="left: 50%; animation-delay: 8s; width: 4px; height: 4px;"></div>
+    <div class="particle" style="left: 60%; animation-delay: 10s; width: 6px; height: 6px;"></div>
+    <div class="particle" style="left: 70%; animation-delay: 12s; width: 3px; height: 3px;"></div>
+    <div class="particle" style="left: 80%; animation-delay: 14s; width: 5px; height: 5px;"></div>
+    <div class="particle" style="left: 90%; animation-delay: 16s; width: 4px; height: 4px;"></div>
+</div>
+
+<div class="content">
+    <nav>
+        <div class="logo">immanuel<span>.</span></div>
+        <div class="nav-links">
+            <a href="#home">home</a>
+            <a href="#work">work</a>
+            <a href="#expertise">expertise</a>
+            <a href="#about">about</a>
+            <a href="#contact">contact</a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- After Effects Style Scroll Progress -->
+    <div class="scroll-progress">
+        <div class="scroll-progress-bar"></div>
+    </div>
+
+    <section id="home" class="hero">
+        <div class="eyebrow fade-up">product designer</div>
+        <h1>Designing <em>digital products</em><br>that drive business growth</h1>
+        <p class="fade-up">I help startups and enterprises create intuitive, scalable design systems and user experiences that convert.</p>
+        <div class="btn-group fade-up">
+            <a href="#work" class="btn btn-primary">View case studies <i class="fas fa-arrow-right"></i></a>
+            <a href="#contact" class="btn btn-secondary">Get in touch</a>
+        </div>
+    </section>
+
+    <section id="work">
+        <div class="section-header fade-up">
+            <h2 class="section-title">Selected work</h2>
+            <p class="section-subtitle">Recent projects I've led from concept to launch</p>
+        </div>
+        <div class="work-grid">
+            <a href="https://www.figma.com/design/xfWSfqR3mbKTu8pcsCVpAa/Gym-Fitness-App" class="project-card fade-up" target="_blank">
+                <div class="project-icon">
+                    <i class="fas fa-dumbbell"></i>
+                </div>
+                <h3>FitTrack Pro</h3>
+                <p>Enterprise fitness management platform for gym chains. Reduced operational overhead by 40% through intuitive workflow design.</p>
+                <div class="project-meta">
+                    <span class="tag">Design System</span>
+                    <span class="project-link">View project <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </a>
+            
+            <a href="https://www.figma.com/design/vTJHvk2nkiiWySGmKsavZF/CinemaBookingApp" class="project-card fade-up" target="_blank">
+                <div class="project-icon">
+                    <i class="fas fa-film"></i>
+                </div>
+                <h3>CineFlow</h3>
+                <p>Streaming platform redesign focusing on discovery and personalization. Increased user engagement by 65% in A/B testing.</p>
+                <div class="project-meta">
+                    <span class="tag">UX Research</span>
+                    <span class="project-link">View project <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </a>
+
+            <a href="#" class="project-card fade-up">
+                <div class="project-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>FinDash Analytics</h3>
+                <p>Financial dashboard for SMEs with real-time data visualization. Improved decision-making speed by 3x through intuitive UI.</p>
+                <div class="project-meta">
+                    <span class="tag">Data Visualization</span>
+                    <span class="project-link">Coming soon <i class="fas fa-clock"></i></span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section id="expertise">
+        <div class="section-header fade-up">
+            <h2 class="section-title">Core capabilities</h2>
+            <p class="section-subtitle">Technical expertise and design methodologies</p>
+        </div>
+        <div class="expertise-grid">
+            <div class="expertise-card fade-up">
+                <div class="expertise-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>User Research</h3>
+                <p>Conducting user interviews, usability testing, and synthesizing insights to inform design decisions.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">User Interviews</span>
+                    <span class="skill-tag">Usability Testing</span>
+                    <span class="skill-tag">Analytics</span>
+                    <span class="skill-tag">Personas</span>
+                </div>
+            </div>
+
+            <div class="expertise-card fade-up">
+                <div class="expertise-icon">
+                    <i class="fas fa-pencil-ruler"></i>
+                </div>
+                <h3>Product Design</h3>
+                <p>End-to-end product design from wireframes to high-fidelity prototypes with attention to detail.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">Wireframing</span>
+                    <span class="skill-tag">Prototyping</span>
+                    <span class="skill-tag">Figma</span>
+                    <span class="skill-tag">Framer</span>
+                </div>
+            </div>
+
+            <div class="expertise-card fade-up">
+                <div class="expertise-icon">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <h3>Design Systems</h3>
+                <p>Building scalable component libraries and design tokens that ensure consistency across products.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">Component Libraries</span>
+                    <span class="skill-tag">Design Tokens</span>
+                    <span class="skill-tag">Documentation</span>
+                    <span class="skill-tag">Accessibility</span>
+                </div>
+            </div>
+
+            <div class="expertise-card fade-up">
+                <div class="expertise-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>Design Engineering</h3>
+                <p>Bridging design and development with HTML/CSS, prototyping tools, and design handoff.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">HTML/CSS</span>
+                    <span class="skill-tag">Webflow</span>
+                    <span class="skill-tag">Responsive Design</span>
+                    <span class="skill-tag">Dev Handoff</span>
+                </div>
+            </div>
+
+            <div class="expertise-card fade-up">
+                <div class="expertise-icon">
+                    <i class="fas fa-users-cog"></i>
+                </div>
+                <h3>Design Strategy</h3>
+                <p>Aligning design decisions with business goals and product metrics to drive measurable outcomes.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">Product Strategy</span>
+                    <span class="skill-tag">Roadmapping</span>
+                    <span class="skill-tag">Stakeholder Management</span>
+                    <span class="skill-tag">Metrics</span>
+                </div>
+            </div>
+
+            <div class="expertise-card fade-up">
+                <div class="expertise-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>Mobile Design</h3>
+                <p>Native and cross-platform mobile experiences following iOS HIG and Material Design guidelines.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">iOS Design</span>
+                    <span class="skill-tag">Android Design</span>
+                    <span class="skill-tag">Responsive</span>
+                    <span class="skill-tag">Gesture Design</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonial section for added depth -->
+        <div class="testimonial-card fade-up">
+            <div class="testimonial-text">
+                "Immanuel's attention to detail and systematic approach to design helped us ship our MVP in record time. His component library saved us months of development work."
+            </div>
+            <div class="testimonial-author">
+                <div class="author-avatar">SD</div>
+                <div class="author-info">
+                    <h4>Sarah Diallo</h4>
+                    <p>Product Lead at TechFlow</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="section-header fade-up">
+            <h2 class="section-title">About me</h2>
+            <p class="section-subtitle">My approach to design leadership</p>
+        </div>
+        <div class="about-grid">
+            <div class="about-text fade-up">
+                <p>I'm Immanuel Igbana, a product designer based in Nigeria with 2+ years of experience crafting digital experiences for B2B SaaS and consumer platforms.</p>
+                <p>My work sits at the intersection of user needs and business objectives. I believe great design is invisible—it should feel intuitive while driving measurable outcomes.</p>
+                <div class="about-highlight">
+                    "Currently focused on design systems that scale across multiple products and platforms."
+                </div>
+                <p>Previously led design initiatives for early-stage startups, helping them secure seed funding through polished MVP designs and investor-ready prototypes.</p>
+                <a href="#" class="btn btn-secondary" style="margin-top: 1.5rem;">
+                    <i class="fas fa-file-alt"></i> Download resume
+                </a>
+            </div>
+            <div class="stats-grid fade-up">
+                <div class="stat-item">
+                    <div class="stat-number" data-target="2" data-suffix="+">0+</div>
+                    <div class="stat-label">Years in Product</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="15" data-suffix="+">0+</div>
+                    <div class="stat-label">Products Shipped</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="8" data-suffix="+">0+</div>
+                    <div class="stat-label">Enterprise Clients</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="100" data-suffix="%">0%</div>
+                    <div class="stat-label">Client Satisfaction</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="section-header fade-up">
+            <h2 class="section-title">Get in touch</h2>
+            <p class="section-subtitle">Available for freelance projects and full-time opportunities</p>
+        </div>
+        <div class="contact-grid">
+            <a href="mailto:igbanaimmanuel@gmail.com" class="contact-card fade-up">
+                <div class="contact-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h3>Email</h3>
+                <div class="contact-value">igbanaimmanuel@gmail.com</div>
+                <span class="contact-action">Send message <i class="fas fa-arrow-right"></i></span>
+            </a>
+
+            <a href="tel:+2347041994401" class="contact-card fade-up">
+                <div class="contact-icon">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+                <h3>Phone</h3>
+                <div class="contact-value">+234 704 199 4401</div>
+                <span class="contact-action">Call now <i class="fas fa-arrow-right"></i></span>
+            </a>
+
+            <a href="https://wa.link/j2nqty" class="contact-card fade-up" target="_blank">
+                <div class="contact-icon">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <h3>WhatsApp</h3>
+                <div class="contact-value">Quick response within 2 hours</div>
+                <span class="contact-action">Start chat <i class="fas fa-arrow-right"></i></span>
+            </a>
+
+            <a href="https://www.linkedin.com/in/immanuel-igbana-92b412374" class="contact-card fade-up" target="_blank">
+                <div class="contact-icon">
+                    <i class="fab fa-linkedin-in"></i>
+                </div>
+                <h3>LinkedIn</h3>
+                <div class="contact-value">Connect professionally</div>
+                <span class="contact-action">View profile <i class="fas fa-arrow-right"></i></span>
+            </a>
+
+            <a href="https://github.com/imma303" class="contact-card fade-up" target="_blank">
+                <div class="contact-icon">
+                    <i class="fab fa-github"></i>
+                </div>
+                <h3>GitHub</h3>
+                <div class="contact-value">Open source contributions</div>
+                <span class="contact-action">View code <i class="fas fa-arrow-right"></i></span>
+            </a>
+
+            <a href="https://x.com/immanuel_p303" class="contact-card fade-up" target="_blank">
+                <div class="contact-icon">
+                    <i class="fab fa-twitter"></i>
+                </div>
+                <h3>Twitter/X</h3>
+                <div class="contact-value">Design thoughts & updates</div>
+                <span class="contact-action">Follow <i class="fas fa-arrow-right"></i></span>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <div>© 2026 Immanuel Igbana — Product Designer</div>
+        <div class="social-links">
+            <a href="https://x.com/immanuel_p303" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://github.com/imma303" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/immanuel-igbana-92b412374" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://wa.link/j2nqty" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        </div>
+    </footer>
+</div>
+
+<!-- Three.js Background -->
+<script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
+        }
+    }
+</script>
+
+<script type="module">
+    import * as THREE from 'three';
+
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    scene.background = null;
+    
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 15);
+    
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x0a0a0f, 0);
+    container.appendChild(renderer.domElement);
+
+    // Subtle ambient light
+    const ambientLight = new THREE.AmbientLight(0x404060);
+    scene.add(ambientLight);
+    
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    dirLight.position.set(2, 3, 4);
+    scene.add(dirLight);
+    
+    const pointLight1 = new THREE.PointLight(0x6366f1, 0.5);
+    pointLight1.position.set(-2, 1, 3);
+    scene.add(pointLight1);
+    
+    const pointLight2 = new THREE.PointLight(0xa78bfa, 0.3);
+    pointLight2.position.set(3, -1, -2);
+    scene.add(pointLight2);
+
+    // Main geometric element
+    const geometry = new THREE.TorusKnotGeometry(1.6, 0.35, 128, 16);
+    const material = new THREE.MeshStandardMaterial({
+        color: 0x6366f1,
+        emissive: 0x1e1b4b,
+        roughness: 0.3,
+        metalness: 0.4,
+        emissiveIntensity: 0.4,
+        wireframe: false,
+        transparent: true,
+        opacity: 0.15
+    });
+    const knot = new THREE.Mesh(geometry, material);
+    scene.add(knot);
+
+    // Secondary ring
+    const ringGeo = new THREE.TorusGeometry(2.2, 0.03, 64, 200);
+    const ringMat = new THREE.MeshStandardMaterial({
+        color: 0xa78bfa,
+        emissive: 0x4c1d95,
+        roughness: 0.5,
+        transparent: true,
+        opacity: 0.1
+    });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    scene.add(ring);
+
+    // Particle field
+    const particlesGeo = new THREE.BufferGeometry();
+    const particlesCount = 2000;
+    const posArray = new Float32Array(particlesCount * 3);
+    
+    for(let i = 0; i < particlesCount * 3; i += 3) {
+        const radius = 6 + Math.random() * 4;
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos((Math.random() * 2) - 1);
+        
+        posArray[i] = radius * Math.sin(phi) * Math.cos(theta);
+        posArray[i+1] = radius * Math.sin(phi) * Math.sin(theta);
+        posArray[i+2] = radius * Math.cos(phi);
+    }
+    
+    particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    
+    const particlesMat = new THREE.PointsMaterial({
+        size: 0.03,
+        color: 0x6366f1,
+        transparent: true,
+        opacity: 0.4,
+        blending: THREE.AdditiveBlending
+    });
+    
+    const particles = new THREE.Points(particlesGeo, particlesMat);
+    scene.add(particles);
+
+    // Animation variables
+    let mouseX = 0;
+    let mouseY = 0;
+    let time = 0;
+
+    window.addEventListener('mousemove', (event) => {
+        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    function animate() {
+        requestAnimationFrame(animate);
+        
+        time += 0.005;
+        
+        // Smooth rotations
+        knot.rotation.x = Math.sin(time * 0.3) * 0.2;
+        knot.rotation.y = time * 0.15;
+        knot.rotation.z = Math.sin(time * 0.2) * 0.1;
+        
+        ring.rotation.x = time * 0.1;
+        ring.rotation.y = time * 0.2;
+        ring.rotation.z = time * 0.15;
+        
+        particles.rotation.y = time * 0.02;
+        particles.rotation.x = Math.sin(time * 0.1) * 0.05;
+        
+        // Subtle camera movement
+        camera.position.x += (mouseX * 1.5 - camera.position.x) * 0.02;
+        camera.position.y += (mouseY * 1.5 - camera.position.y) * 0.02;
+        camera.lookAt(0, 0, 0);
+        
+        renderer.render(scene, camera);
+    }
+    
+    animate();
+
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+</script>
+
+<script>
+    // Smooth fade-up animations
+    const fadeElements = document.querySelectorAll('.fade-up');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('appear');
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -20px 0px'
+    });
+    
+    fadeElements.forEach(el => observer.observe(el));
+    
+    // Trigger initial animation
+    setTimeout(() => {
+        document.querySelectorAll('.fade-up').forEach(el => {
+            if (el.getBoundingClientRect().top < window.innerHeight) {
+                el.classList.add('appear');
+            }
+        });
+    }, 100);
+
+    // Hamburger Menu Functionality
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('active');
+    });
+
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+        });
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+        }
+    });
+
+    // After Effects Style Scroll Animations
+    class AfterEffectsScroll {
+        constructor() {
+            this.elements = [];
+            this.scrollY = 0;
+            this.init();
+        }
+
+        init() {
+            this.createScrollElements();
+            this.bindEvents();
+            this.animate();
+        }
+
+        createScrollElements() {
+            // Add scroll animation classes to various elements
+            const sections = document.querySelectorAll('section');
+            sections.forEach((section, index) => {
+                section.classList.add('scroll-section');
+                section.style.setProperty('--section-index', index);
+            });
+
+            // Add parallax to hero elements
+            const heroElements = document.querySelectorAll('.hero h1, .hero p, .btn-group');
+            heroElements.forEach(el => el.classList.add('parallax-element'));
+
+            // Add stagger animation to project cards
+            const projectCards = document.querySelectorAll('.project-card');
+            projectCards.forEach((card, index) => {
+                card.classList.add('stagger-card');
+                card.style.setProperty('--card-index', index);
+            });
+
+            // Add 3D transform animations
+            const skillBadges = document.querySelectorAll('.skill-badge');
+            skillBadges.forEach(badge => badge.classList.add('ae-transform'));
+
+            const contactCards = document.querySelectorAll('.contact-card');
+            contactCards.forEach(card => card.classList.add('ae-transform'));
+        }
+
+        bindEvents() {
+            window.addEventListener('scroll', this.handleScroll.bind(this), { passive: true });
+        }
+
+        handleScroll() {
+            this.scrollY = window.scrollY;
+            this.updateParallax();
+            this.updateScrollProgress();
+        }
+
+        updateParallax() {
+            const parallaxElements = document.querySelectorAll('.parallax-element');
+            parallaxElements.forEach((el, index) => {
+                const speed = 0.5 + (index * 0.1);
+                const yPos = -(this.scrollY * speed);
+                el.style.transform = `translateY(${yPos}px)`;
+            });
+        }
+
+        updateScrollProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+
+            const progressBar = document.querySelector('.scroll-progress-bar');
+            if (progressBar) {
+                progressBar.style.width = scrollPercent + '%';
+            }
+
+            // Update section-based effects
+            const sections = document.querySelectorAll('.scroll-section');
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                const progress = Math.max(0, Math.min(1, 1 - (rect.top / window.innerHeight)));
+
+                section.style.setProperty('--scroll-progress', progress);
+
+                // Apply scroll-based transforms
+                if (progress > 0 && progress < 1) {
+                    const scale = 0.95 + (progress * 0.05);
+                    const blur = (1 - progress) * 5;
+                    section.style.transform = `scale(${scale})`;
+                    section.style.filter = `blur(${blur}px)`;
+                } else {
+                    section.style.transform = '';
+                    section.style.filter = '';
+                }
+            });
+        }
+
+        animate() {
+            // Continuous animation loop for smooth effects
+            const animateFrame = () => {
+                this.updateStaggerAnimations();
+                this.update3DTransforms();
+                requestAnimationFrame(animateFrame);
+            };
+            animateFrame();
+        }
+
+        updateStaggerAnimations() {
+            const staggerCards = document.querySelectorAll('.stagger-card');
+            staggerCards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+
+                if (isVisible) {
+                    const progress = Math.max(0, Math.min(1, 1 - (rect.top / window.innerHeight)));
+                    const cardIndex = parseInt(card.style.getPropertyValue('--card-index')) || 0;
+                    const delay = cardIndex * 0.1;
+
+                    const scale = 0.8 + (progress * 0.2);
+                    const rotateY = (1 - progress) * 15;
+                    const translateZ = progress * 20;
+
+                    card.style.transform = `scale(${scale}) rotateY(${rotateY}deg) translateZ(${translateZ}px)`;
+                    card.style.transitionDelay = `${delay}s`;
+                }
+            });
+        }
+
+        update3DTransforms() {
+            const aeElements = document.querySelectorAll('.ae-transform');
+            const mouseX = this.mouseX || window.innerWidth / 2;
+            const mouseY = this.mouseY || window.innerHeight / 2;
+
+            aeElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+
+                const deltaX = mouseX - centerX;
+                const deltaY = mouseY - centerY;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+                const maxDistance = 300;
+                const intensity = Math.max(0, 1 - distance / maxDistance);
+
+                const rotateX = deltaY * intensity * 0.02;
+                const rotateY = -deltaX * intensity * 0.02;
+                const scale = 1 + intensity * 0.05;
+
+                el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`;
+            });
+        }
+
+        // Mouse tracking for 3D effects
+        trackMouse(e) {
+            this.mouseX = e.clientX;
+            this.mouseY = e.clientY;
+        }
+
+        // Add scroll velocity detection
+        updateScrollVelocity() {
+            const currentScroll = window.scrollY;
+            const deltaScroll = currentScroll - this.lastScrollY;
+            this.scrollVelocity = deltaScroll;
+            this.lastScrollY = currentScroll;
+
+            // Apply velocity-based effects
+            if (Math.abs(this.scrollVelocity) > 10) {
+                document.body.style.filter = `blur(${Math.min(Math.abs(this.scrollVelocity) * 0.01, 2)}px)`;
+            } else {
+                document.body.style.filter = '';
+            }
+        }
+    }
+
+    // Enhanced After Effects Scroll with mouse tracking
+    class EnhancedAfterEffectsScroll extends AfterEffectsScroll {
+        constructor() {
+            super();
+            this.mouseX = 0;
+            this.mouseY = 0;
+            this.lastScrollY = 0;
+            this.scrollVelocity = 0;
+            this.bindMouseEvents();
+        }
+
+        bindMouseEvents() {
+            document.addEventListener('mousemove', this.trackMouse.bind(this), { passive: true });
+        }
+
+        handleScroll() {
+            super.handleScroll();
+            this.updateScrollVelocity();
+        }
+
+        trackMouse(e) {
+            this.mouseX = e.clientX;
+            this.mouseY = e.clientY;
+            super.trackMouse(e);
+        }
+    }
+
+    // Initialize enhanced After Effects style animations
+    new EnhancedAfterEffectsScroll();
+
+    // Counter Animation for Stats
+    function animateCounter(element, target, duration = 2000) {
+        element.classList.add('animated');
+        const start = 0;
+        const increment = target / (duration / 16); // 60fps
+        let current = start;
+
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                element.textContent = target + (element.dataset.suffix || '');
+                clearInterval(timer);
+                setTimeout(() => element.classList.remove('animated'), 500); // Remove glow after animation
+                return;
+            }
+            element.textContent = Math.floor(current) + (element.dataset.suffix || '');
+        }, 16);
+    }
+
+    // Initialize counter animation when about section is visible
+    const aboutSection = document.getElementById('about');
+    const statNumbers = document.querySelectorAll('.stat-number');
+    let countersAnimated = false;
+
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !countersAnimated) {
+                countersAnimated = true;
+
+                // Add counter class for styling
+                statNumbers.forEach(stat => stat.classList.add('counter'));
+
+                // Animate each counter with a slight delay
+                statNumbers.forEach((stat, index) => {
+                    const target = parseInt(stat.dataset.target);
+                    const suffix = stat.dataset.suffix;
+
+                    setTimeout(() => {
+                        animateCounter(stat, target);
+                    }, index * 200); // Stagger the animations
+                });
+            }
+        });
+    }, {
+        threshold: 0.3, // Trigger when 30% of section is visible
+        rootMargin: '0px 0px -100px 0px'
+    });
+
+    if (aboutSection) {
+        counterObserver.observe(aboutSection);
+    }
+</script>
+
+</body>
+</html>
