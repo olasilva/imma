@@ -8,7 +8,7 @@ const app = express();
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
     ? ['https://your-vercel-domain.vercel.app'] // Replace with your actual Vercel domain
-    : ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:5000'],
+    : ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:3001'],
   credentials: true
 }));
 app.use(express.json());
@@ -69,7 +69,7 @@ module.exports = app;
 
 // Local development
 if (require.main === module) {
-  const PORT = process.env.PORT || 5000;
+  const PORT = process.env.PORT || 3001;
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
